@@ -12,7 +12,7 @@ class _CountryPageState extends State<CountryPage> {
 
   fetchCountryData() async {
     http.Response response =
-        await http.get('https://corona.lmao.ninja/countries');
+        await http.get('https://corona.lmao.ninja/countries?sort=cases');
 
     setState(() {
       countryData = jsonDecode(response.body);
@@ -31,43 +31,79 @@ class _CountryPageState extends State<CountryPage> {
       appBar: AppBar(
         title: Text('Country Stats'),
       ),
-      body: countryData == null? Center(child: CircularProgressIndicator(),) : ListView.builder(
-        itemBuilder: (context, index) {
-          return Container(
-            height: 130.0,
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            decoration: BoxDecoration(color: Colors.white ,boxShadow: [
-              BoxShadow(color: Colors.grey[100], blurRadius: 10.0, offset: Offset(0,10)),
-            ]),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: countryData == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 130.0,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  child: Row(
                     children: <Widget>[
-                      Text(countryData[index]['country'], style: TextStyle(fontWeight: FontWeight.bold),),
-                      Image.network(countryData[index]['countryInfo']['flag'], height: 50, width: 60.0,),
+                      Container(
+                        width: 200,
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              countryData[index]['country'],
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Image.network(
+                              countryData[index]['countryInfo']['flag'],
+                              height: 50,
+                              width: 60.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'CONFIRMED:' +
+                                    countryData[index]['cases'].toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey),
+                              ),
+                              Text(
+                                'ACTIVE:' +
+                                    countryData[index]['active'].toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                              ),
+                              Text(
+                                'RECOVERED:' +
+                                    countryData[index]['recovered'].toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green),
+                              ),
+                              Text(
+                                  'DEATHS:' +
+                                      countryData[index]['deaths'].toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red)),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                Expanded(child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('CONFIRMED:' + countryData[index]['cases'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[600]),),
-                      Text('ACTIVE:' + countryData[index]['active'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),),
-                      Text('RECOVERED:' + countryData[index]['recovered'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
-                      Text('DEATHS:' + countryData[index]['deaths'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
-                    ],
-                  ),
-                ),),
-              ],
+                );
+              },
+              itemCount: countryData == null ? 0 : countryData.length,
             ),
-          );
-        },
-        itemCount: countryData == null ? 0 : countryData.length,
-      ),
     );
   }
 }
