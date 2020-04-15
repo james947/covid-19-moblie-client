@@ -91,14 +91,14 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: primaryBlack,
+                        color: Theme.of(context).brightness == Brightness.dark? Colors.grey[100] : Colors.grey[900],
                         borderRadius: BorderRadius.circular(10.0)),
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Regional',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark? Colors.grey[900] : Colors.white,
                         fontSize: 22.0,
                       ),
                     ),

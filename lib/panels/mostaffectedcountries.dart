@@ -22,7 +22,7 @@ class MostAffectedPanel extends StatelessWidget {
               SizedBox(width: 10.0,),
               Text(countryData[index]['country'], style: TextStyle(fontWeight: FontWeight.bold),),
               SizedBox(width: 10.0,),
-              Text('Deahts:' + countryData[index]['deaths'].toString(), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+              Text('Deaths: ' + countryData[index]['deaths'].toString(), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
             ],
           ),
         );
